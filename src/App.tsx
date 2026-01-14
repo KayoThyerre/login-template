@@ -1,11 +1,7 @@
-import { Login } from "./pages/Login";
-import { Home } from "./pages/Home";
+import { AppRoutes } from "../src/AppRoutes";
 
 function App() {
-  return (
-    <Login />
-    // troque para <Home /> depois para testar
-  );
+  return <AppRoutes />;
 }
 
 export default App;
