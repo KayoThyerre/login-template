@@ -5,6 +5,7 @@ import { AuthCard } from "../components/AuthCard";
 
 export function Login() {
   return (
+    // <PrivateLayout />
     <PublicLayout>
       <AuthCard title="Auth Template">
         <div className="flex flex-col gap-4">
