@@ -1,8 +1,19 @@
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+
 type PrivateLayoutProps = {
   children: React.ReactNode;
 };
 
 export function PrivateLayout({ children }: PrivateLayoutProps) {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  function  handleLogout() {
+    logout();
+    navigate("/", { replace: true });
+  };
+  
   return (
     <div className="min-h-screen bg-gray-100">
       <header className="bg-white shadow-sm">
@@ -11,7 +22,7 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
             Auth Template
           </h1>
 
-          <button className="text-sm text-gray-600 hover:text-blue-600 transition">
+          <button onClick={handleLogout} className="text-sm text-gray-600 hover:text-blue-600 transition">
             Sair
           </button>
         </div>
