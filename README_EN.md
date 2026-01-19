@@ -51,29 +51,36 @@ This project was designed to be a **professional starter template**, ideal for f
 ## 📂 Folder Structure
 
 src/
+
+├── assets/
+
 ├── components/
-│ ├── Button.tsx
-│ ├── Input.tsx
-│ └── AuthCard.tsx
-│
+ ├── AuthCard.tsx
+ ├── Button.tsx
+ └── Input.tsx
+
 ├── contexts/
-│ └── AuthContext.tsx
-│
+ └── AuthContext.tsx
+
 ├── layouts/
-│ ├── PublicLayout.tsx
-│ └── PrivateLayout.tsx
-│
+ ├── PrivateLayout.tsx
+ └── PublicLayout.tsx
+
 ├── pages/
-│ ├── Login.tsx
-│ └── Home.tsx
-│
+ ├── Home.tsx
+ ├── Dashboard.tsx
+ ├── Users.tsx
+ └── Login.tsx
+
 ├── routes/
-│ ├── AppRoutes.tsx
-│ └── PrivateRoute.tsx
-│
+ ├── AppRoutes.tsx
+ └── PrivateRoute.tsx
+
+├── styles/
 ├── App.tsx
 ├── main.tsx
 └── index.css
+
 
 
 ---

@@ -1,74 +1,73 @@
-# Auth Template – React + TypeScript
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/kayothyerre/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/KayoThyerre)
+[![Instagram](https://img.shields.io/badge/Instagram-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/kayoalarcon/)
 
-Template de autenticação e dashboard desenvolvido em **React**, com foco em **arquitetura limpa**, **reutilização** e **base para freelas e projetos futuros**.
+# Auth Template Dashboard
 
-Este projeto foi pensado para servir como um **esqueleto profissional**, facilitando a criação de sistemas com login, rotas protegidas e layout administrativo.
+Este projeto é um **template de autenticação e dashboard administrativo**, criado com foco em **reutilização**, **boas práticas de arquitetura** e **escalabilidade**.
+
+O objetivo é servir como base para projetos reais, freelas e portfólio, evitando retrabalho em futuros sistemas que exigem login, layout privado e navegação estruturada.
 
 ---
 
 ## ✨ Funcionalidades
 
-- Login simulado (mock)
-- Logout funcional
-- Persistência de sessão (localStorage)
-- Rotas públicas e privadas
-- Layout público (Login)
-- Layout privado (Dashboard)
-- Sidebar responsiva
-- Sidebar colapsável no desktop
-- Header com avatar e usuário mockado
-- Estrutura preparada para backend real
+- Autenticação mockada (login e logout)
+- Proteção de rotas privadas
+- Layout privado com:
+  - Header
+  - Sidebar colapsável
+  - Conteúdo dinâmico
+- Rotas aninhadas (Nested Routes)
+- Página Dashboard
+- Página Usuários (exemplo funcional)
+- Item ativo inteligente na sidebar
+- Tooltip na sidebar colapsada
+- Responsivo (desktop e mobile)
+- Estrutura preparada para backend futuro
 
 ---
 
-## 🧠 Decisões de Arquitetura
+## 🧠 Conceitos aplicados
 
-- **React Context API** para controle global de autenticação
-- **User como fonte da verdade**, não boolean
-- `isAuthenticated` derivado do estado do usuário
-- Inicialização do estado usando **lazy initialization** no `useState`
-- Layouts separados de páginas
-- Componentização reutilizável
-- Responsividade pensada desde o início
-
----
-
-## 🛠️ Tecnologias Utilizadas
-
-- React 18
-- TypeScript
-- Vite
-- React Router DOM
-- Tailwind CSS v4
-- localStorage (persistência)
-- Context API
+- React Router (rotas privadas e aninhadas)
+- Layout como rota (`<Outlet />`)
+- Componentes dirigidos por dados
+- Separação clara entre layout, páginas e lógica
+- Tipagem com TypeScript
+- Arquitetura escalável para dashboards
 
 ---
 
-## 📂 Estrutura de Pastas
+## 🗂️ Estrutura de pastas
 
 src/
 
+├── assets/
+
 ├── components/
-│ ├── Button.tsx
-│ ├── Input.tsx
-│ └── AuthCard.tsx
-│
+ ├── AuthCard.tsx
+ ├── Button.tsx
+ └── Input.tsx
+
 ├── contexts/
-│ └── AuthContext.tsx
-│
+ └── AuthContext.tsx
+
 ├── layouts/
-│ ├── PublicLayout.tsx
-│ └── PrivateLayout.tsx
-│
+ ├── PrivateLayout.tsx
+ └── PublicLayout.tsx
+
 ├── pages/
-│ ├── Login.tsx
-│ └── Home.tsx
-│
+ ├── Home.tsx
+ ├── Dashboard.tsx
+ ├── Users.tsx
+ └── Login.tsx
+
 ├── routes/
-│ ├── AppRoutes.tsx
-│ └── PrivateRoute.tsx
-│
+ ├── AppRoutes.tsx
+ └── PrivateRoute.tsx
+
+├── styles/
 ├── App.tsx
 ├── main.tsx
 └── index.css
@@ -76,38 +75,47 @@ src/
 
 ---
 
-## 🔐 Fluxo de Autenticação
+## 🚀 Tecnologias utilizadas
 
-1. Usuário acessa `/`
-2. Clica em **Entrar**
-3. Usuário mockado é criado
-4. Estado global é atualizado
-5. Dados são persistidos no localStorage
-6. Usuário é redirecionado para `/home`
-7. Rotas privadas são liberadas
-8. Logout limpa estado e storage
+- React
+- TypeScript
+- Vite
+- React Router DOM
+- Tailwind CSS
+- Node.js (ambiente de desenvolvimento)
 
 ---
 
 ## ▶️ Como rodar o projeto
 
 ```bash
+# instalar dependências
 npm install
+
+# rodar o projeto
 npm run dev
-http://localhost:5173
-```
+````
 
+## 🔐 Autenticação
 
+A autenticação é mockada, com estado gerenciado via AuthContext.
+O projeto está preparado para integração futura com backend (JWT, API REST, etc).
 
-📌 Observações Importantes
+## 📌 Observações
 
-O projeto utiliza StrictMode do React
+Este projeto foi desenvolvido com foco em aprendizado profundo de arquitetura frontend e pode ser facilmente expandido para:
 
-A persistência de sessão foi implementada corretamente para React 18
+Backend real
 
-Estrutura preparada para crescimento sem refatoração pesada
+Controle de permissões por role
 
-👨‍💻 Autor
+CRUDs
+
+Breadcrumbs
+
+Persistência de estado
+
+## 👨‍💻 Autor
 
 Desenvolvido por Kayo
-Projeto criado com foco em aprendizado profundo e boas práticas.
+Projeto voltado para portfólio, estudos avançados e freelas.
