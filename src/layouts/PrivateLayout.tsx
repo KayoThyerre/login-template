@@ -1,20 +1,18 @@
 import { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
-
+import { useAuth } from "../contexts/AuthContext";
 
 type PrivateLayoutProps = {
   children: React.ReactNode;
 };
 
 export function PrivateLayout({ children }: PrivateLayoutProps) {
-  const location = useLocation();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
   const navigate = useNavigate();
-
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const location = useLocation();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   function handleLogout() {
     logout();
@@ -23,46 +21,46 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
 
   function isActive(path: string) {
     return location.pathname === path;
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
       {/* HEADER */}
       <header className="h-16 bg-white border-b flex items-center justify-between px-4 md:px-6">
-       <div className="flex items-center gap-3">
-      {/* Mobile */}
-      <button
-        onClick={() => setSidebarOpen(true)}
-        className="md:hidden text-gray-600"
-      >
-        ☰
-      </button>
+        <div className="flex items-center gap-3">
+          {/* Mobile menu */}
+          <button
+            onClick={() => setSidebarOpen(true)}
+            className="md:hidden text-gray-600"
+          >
+            ☰
+          </button>
 
-      <h1 className="text-lg font-semibold text-blue-600">
-        Auth Template
-      </h1>
+          <h1 className="text-lg font-semibold text-blue-600">
+            Auth Template
+          </h1>
 
-      {/* Desktop collapse */}
-      <button
-        onClick={() => setSidebarCollapsed((prev) => !prev)}
-        className="hidden md:flex text-gray-500 hover:text-blue-600 transition"
-      >
-        {sidebarCollapsed ? "➡️" : "⬅️"}
-      </button>
-    </div>
+          {/* Collapse button (desktop) */}
+          <button
+            onClick={() => setSidebarCollapsed((prev) => !prev)}
+            className="hidden md:flex text-gray-500 hover:text-blue-600 transition"
+          >
+            {sidebarCollapsed ? "➡️" : "⬅️"}
+          </button>
+        </div>
 
         <div className="flex items-center gap-4">
           <div className="text-right hidden sm:block">
             <p className="text-sm font-medium text-gray-800">
-              Kayo Dev
+              {user?.name}
             </p>
             <p className="text-xs text-gray-500">
-              Administrador
+              {user?.role}
             </p>
           </div>
 
           <div className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold">
-            K
+            {user?.name.charAt(0)}
           </div>
 
           <button
@@ -74,9 +72,9 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
         </div>
       </header>
 
-      {/* CORPO */}
+      {/* BODY */}
       <div className="flex flex-1 relative">
-        {/* OVERLAY MOBILE */}
+        {/* Overlay mobile */}
         {sidebarOpen && (
           <div
             onClick={() => setSidebarOpen(false)}
@@ -95,74 +93,106 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
             ${sidebarCollapsed ? "md:w-16" : "md:w-60"}
           `}
         >
-
           <nav className="flex flex-col gap-2">
-            <button
-              onClick={() => navigate("/home")}
-              className={`
-                flex items-center gap-3 px-3 py-2 rounded-md transition
-                ${
-                  isActive("/home")
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-100"
-                }
-              `}
-            >
-              <span>📊</span>
-              {!sidebarCollapsed && <span>Dashboard</span>}
-            </button>
-            
-            <button
-              onClick={() => navigate("/users")}
-              className={`
-                flex items-center gap-3 px-3 py-2 rounded-md transition
-                ${
-                  isActive("/users")
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-100"
-                }
-              `}
-            >
-              <span>👤</span>
-              {!sidebarCollapsed && <span>Usuários</span>}
-            </button>
+            {/* Dashboard */}
+            <div className="relative group">
+              <button
+                onClick={() => navigate("/home")}
+                className={`
+                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
+                  ${
+                    isActive("/home")
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }
+                `}
+              >
+                <span>📊</span>
+                {!sidebarCollapsed && <span>Dashboard</span>}
+              </button>
 
-            <button
-              onClick={() => navigate("/reports")}
-              className={`
-                flex items-center gap-3 px-3 py-2 rounded-md transition
-                ${
-                  isActive("/reports")
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-100"
-                }
-              `}
-            >
-              <span>📈</span>
-              {!sidebarCollapsed && <span>Relatórios</span>}
-            </button>
+              {sidebarCollapsed && (
+                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
+                  Dashboard
+                </span>
+              )}
+            </div>
 
+            {/* Usuários */}
+            <div className="relative group">
+              <button
+                onClick={() => navigate("/users")}
+                className={`
+                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
+                  ${
+                    isActive("/users")
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }
+                `}
+              >
+                <span>👤</span>
+                {!sidebarCollapsed && <span>Usuários</span>}
+              </button>
 
-            <button
-              onClick={() => navigate("/settings")}
-              className={`
-                flex items-center gap-3 px-3 py-2 rounded-md transition
-                ${
-                  isActive("/settings")
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-100"
-                }
-              `}
-            >
-              <span>⚙️</span>
-              {!sidebarCollapsed && <span>Configurações</span>}
-            </button>
+              {sidebarCollapsed && (
+                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
+                  Usuários
+                </span>
+              )}
+            </div>
 
+            {/* Relatórios */}
+            <div className="relative group">
+              <button
+                onClick={() => navigate("/reports")}
+                className={`
+                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
+                  ${
+                    isActive("/reports")
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }
+                `}
+              >
+                <span>📈</span>
+                {!sidebarCollapsed && <span>Relatórios</span>}
+              </button>
 
+              {sidebarCollapsed && (
+                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
+                  Relatórios
+                </span>
+              )}
+            </div>
+
+            {/* Configurações */}
+            <div className="relative group">
+              <button
+                onClick={() => navigate("/settings")}
+                className={`
+                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
+                  ${
+                    isActive("/settings")
+                      ? "bg-blue-50 text-blue-600 font-medium"
+                      : "text-gray-600 hover:bg-gray-100"
+                  }
+                `}
+              >
+                <span>⚙️</span>
+                {!sidebarCollapsed && <span>Configurações</span>}
+              </button>
+
+              {sidebarCollapsed && (
+                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
+                  Configurações
+                </span>
+              )}
+            </div>
           </nav>
         </aside>
 
-        {/* CONTEÚDO */}
+        {/* CONTENT */}
         <main className="flex-1 p-6">
           <div className="bg-white rounded-lg shadow-sm p-6 h-full">
             {children}
