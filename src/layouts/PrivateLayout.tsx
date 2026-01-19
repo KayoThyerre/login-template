@@ -6,6 +6,25 @@ type PrivateLayoutProps = {
   children: React.ReactNode;
 };
 
+type SidebarItem = {
+  label: string;
+  path: string;
+  icon: string;
+};
+
+const SIDEBAR_ITEMS: SidebarItem[] = [
+  { label: "Dashboard", path: "/home", icon: "📊" },
+  { label: "Usuários", path: "/users", icon: "👤" },
+  { label: "Relatórios", path: "/reports", icon: "📈" },
+  { label: "Configurações", path: "/settings", icon: "⚙️" },
+];
+
+type HeaderAction = {
+  label: string;
+  onClick: () => void;
+  variant?: "default" | "danger";
+};
+
 export function PrivateLayout({ children }: PrivateLayoutProps) {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
@@ -13,6 +32,14 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  const headerActions: HeaderAction[] = [
+    {
+      label: "Sair",
+      onClick: handleLogout,
+      variant: "danger",
+    },
+  ];
 
   function handleLogout() {
     logout();
@@ -40,7 +67,7 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
             Auth Template
           </h1>
 
-          {/* Collapse button (desktop) */}
+          {/* Collapse button */}
           <button
             onClick={() => setSidebarCollapsed((prev) => !prev)}
             className="hidden md:flex text-gray-500 hover:text-blue-600 transition"
@@ -63,12 +90,22 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
             {user?.name.charAt(0)}
           </div>
 
-          <button
-            onClick={handleLogout}
-            className="text-sm text-gray-500 hover:text-red-500 transition"
-          >
-            Sair
-          </button>
+          <div className="flex items-center gap-2">
+            {headerActions.map((action) => (
+              <button
+                key={action.label}
+                onClick={action.onClick}
+                className={`text-sm transition ${
+                  action.variant === "danger"
+                    ? "text-gray-500 hover:text-red-500"
+                    : "text-gray-500 hover:text-blue-600"
+                }`}
+              >
+                {action.label}
+              </button>
+            ))}
+          </div>
+
         </div>
       </header>
 
@@ -94,101 +131,34 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
           `}
         >
           <nav className="flex flex-col gap-2">
-            {/* Dashboard */}
-            <div className="relative group">
-              <button
-                onClick={() => navigate("/home")}
-                className={`
-                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
-                  ${
-                    isActive("/home")
-                      ? "bg-blue-50 text-blue-600 font-medium"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }
-                `}
-              >
-                <span>📊</span>
-                {!sidebarCollapsed && <span>Dashboard</span>}
-              </button>
+            {SIDEBAR_ITEMS.map((item) => {
+              const active = isActive(item.path);
 
-              {sidebarCollapsed && (
-                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
-                  Dashboard
-                </span>
-              )}
-            </div>
+              return (
+                <div key={item.path} className="relative group">
+                  <button
+                    onClick={() => navigate(item.path)}
+                    className={`
+                      flex items-center gap-3 px-3 py-2 rounded-md transition w-full
+                      ${
+                        active
+                          ? "bg-blue-50 text-blue-600 font-medium"
+                          : "text-gray-600 hover:bg-gray-100"
+                      }
+                    `}
+                  >
+                    <span>{item.icon}</span>
+                    {!sidebarCollapsed && <span>{item.label}</span>}
+                  </button>
 
-            {/* Usuários */}
-            <div className="relative group">
-              <button
-                onClick={() => navigate("/users")}
-                className={`
-                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
-                  ${
-                    isActive("/users")
-                      ? "bg-blue-50 text-blue-600 font-medium"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }
-                `}
-              >
-                <span>👤</span>
-                {!sidebarCollapsed && <span>Usuários</span>}
-              </button>
-
-              {sidebarCollapsed && (
-                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
-                  Usuários
-                </span>
-              )}
-            </div>
-
-            {/* Relatórios */}
-            <div className="relative group">
-              <button
-                onClick={() => navigate("/reports")}
-                className={`
-                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
-                  ${
-                    isActive("/reports")
-                      ? "bg-blue-50 text-blue-600 font-medium"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }
-                `}
-              >
-                <span>📈</span>
-                {!sidebarCollapsed && <span>Relatórios</span>}
-              </button>
-
-              {sidebarCollapsed && (
-                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
-                  Relatórios
-                </span>
-              )}
-            </div>
-
-            {/* Configurações */}
-            <div className="relative group">
-              <button
-                onClick={() => navigate("/settings")}
-                className={`
-                  flex items-center gap-3 px-3 py-2 rounded-md transition w-full
-                  ${
-                    isActive("/settings")
-                      ? "bg-blue-50 text-blue-600 font-medium"
-                      : "text-gray-600 hover:bg-gray-100"
-                  }
-                `}
-              >
-                <span>⚙️</span>
-                {!sidebarCollapsed && <span>Configurações</span>}
-              </button>
-
-              {sidebarCollapsed && (
-                <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
-                  Configurações
-                </span>
-              )}
-            </div>
+                  {sidebarCollapsed && (
+                    <span className="absolute left-full ml-3 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-md bg-gray-900 text-white text-xs px-2 py-1 opacity-0 group-hover:opacity-100 transition pointer-events-none">
+                      {item.label}
+                    </span>
+                  )}
+                </div>
+              );
+            })}
           </nav>
         </aside>
 
