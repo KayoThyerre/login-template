@@ -1,73 +1,113 @@
-# React + TypeScript + Vite
+# Auth Template – React + TypeScript
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Template de autenticação e dashboard desenvolvido em **React**, com foco em **arquitetura limpa**, **reutilização** e **base para freelas e projetos futuros**.
 
-Currently, two official plugins are available:
+Este projeto foi pensado para servir como um **esqueleto profissional**, facilitando a criação de sistemas com login, rotas protegidas e layout administrativo.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## ✨ Funcionalidades
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Login simulado (mock)
+- Logout funcional
+- Persistência de sessão (localStorage)
+- Rotas públicas e privadas
+- Layout público (Login)
+- Layout privado (Dashboard)
+- Sidebar responsiva
+- Sidebar colapsável no desktop
+- Header com avatar e usuário mockado
+- Estrutura preparada para backend real
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🧠 Decisões de Arquitetura
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **React Context API** para controle global de autenticação
+- **User como fonte da verdade**, não boolean
+- `isAuthenticated` derivado do estado do usuário
+- Inicialização do estado usando **lazy initialization** no `useState`
+- Layouts separados de páginas
+- Componentização reutilizável
+- Responsividade pensada desde o início
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 🛠️ Tecnologias Utilizadas
+
+- React 18
+- TypeScript
+- Vite
+- React Router DOM
+- Tailwind CSS v4
+- localStorage (persistência)
+- Context API
+
+---
+
+## 📂 Estrutura de Pastas
+
+src/
+
+├── components/
+│ ├── Button.tsx
+│ ├── Input.tsx
+│ └── AuthCard.tsx
+│
+├── contexts/
+│ └── AuthContext.tsx
+│
+├── layouts/
+│ ├── PublicLayout.tsx
+│ └── PrivateLayout.tsx
+│
+├── pages/
+│ ├── Login.tsx
+│ └── Home.tsx
+│
+├── routes/
+│ ├── AppRoutes.tsx
+│ └── PrivateRoute.tsx
+│
+├── App.tsx
+├── main.tsx
+└── index.css
+
+
+---
+
+## 🔐 Fluxo de Autenticação
+
+1. Usuário acessa `/`
+2. Clica em **Entrar**
+3. Usuário mockado é criado
+4. Estado global é atualizado
+5. Dados são persistidos no localStorage
+6. Usuário é redirecionado para `/home`
+7. Rotas privadas são liberadas
+8. Logout limpa estado e storage
+
+---
+
+## ▶️ Como rodar o projeto
+
+```bash
+npm install
+npm run dev
+http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+📌 Observações Importantes
+
+O projeto utiliza StrictMode do React
+
+A persistência de sessão foi implementada corretamente para React 18
+
+Estrutura preparada para crescimento sem refatoração pesada
+
+👨‍💻 Autor
+
+Desenvolvido por Kayo
+Projeto criado com foco em aprendizado profundo e boas práticas.
