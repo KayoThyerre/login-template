@@ -1,12 +1,14 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
+
 
 type PrivateLayoutProps = {
   children: React.ReactNode;
 };
 
 export function PrivateLayout({ children }: PrivateLayoutProps) {
+  const location = useLocation();
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -18,6 +20,10 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
     logout();
     navigate("/", { replace: true });
   }
+
+  function isActive(path: string) {
+    return location.pathname === path;
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">
@@ -91,28 +97,67 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
         >
 
           <nav className="flex flex-col gap-2">
-            <button className="flex items-center gap-3 px-3 py-2 rounded-md bg-blue-50 text-blue-600 font-medium">
+            <button
+              onClick={() => navigate("/home")}
+              className={`
+                flex items-center gap-3 px-3 py-2 rounded-md transition
+                ${
+                  isActive("/home")
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-100"
+                }
+              `}
+            >
               <span>📊</span>
-
-              {!sidebarCollapsed && (
-                <span className="whitespace-nowrap">Dashboard</span>
-              )}
+              {!sidebarCollapsed && <span>Dashboard</span>}
             </button>
             
-            <button className="flex items-center gap-3 px-3 py-2 rounded-md text-gray-600 hover:bg-gray-100">
+            <button
+              onClick={() => navigate("/users")}
+              className={`
+                flex items-center gap-3 px-3 py-2 rounded-md transition
+                ${
+                  isActive("/users")
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-100"
+                }
+              `}
+            >
               <span>👤</span>
               {!sidebarCollapsed && <span>Usuários</span>}
             </button>
 
-            <button className="flex items-center gap-3 px-3 py-2 rounded-md text-gray-600 hover:bg-gray-100">
+            <button
+              onClick={() => navigate("/reports")}
+              className={`
+                flex items-center gap-3 px-3 py-2 rounded-md transition
+                ${
+                  isActive("/reports")
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-100"
+                }
+              `}
+            >
               <span>📈</span>
               {!sidebarCollapsed && <span>Relatórios</span>}
             </button>
 
-            <button className="flex items-center gap-3 px-3 py-2 rounded-md text-gray-600 hover:bg-gray-100">
+
+            <button
+              onClick={() => navigate("/settings")}
+              className={`
+                flex items-center gap-3 px-3 py-2 rounded-md transition
+                ${
+                  isActive("/settings")
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-100"
+                }
+              `}
+            >
               <span>⚙️</span>
               {!sidebarCollapsed && <span>Configurações</span>}
             </button>
+
 
           </nav>
         </aside>

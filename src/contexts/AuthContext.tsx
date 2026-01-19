@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 type User = {
   name: string;
@@ -15,22 +15,10 @@ type AuthContextData = {
 const AuthContext = createContext({} as AuthContextData);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // const [user, setUser] = useState<User | null>(null);
   const [user, setUser] = useState<User | null>(() => {
-  const storedUser = localStorage.getItem("auth:user");
-
+    const storedUser = localStorage.getItem("auth:user");
     return storedUser ? JSON.parse(storedUser) : null;
   });
-
-
-  // useEffect(() => {
-  //   const storedUser = localStorage.getItem("auth:user");
-
-  //   if (storedUser) {
-  //     setUser(JSON.parse(storedUser));
-  //   }
-  // }, []);
-
 
   const isAuthenticated = !!user;
 
@@ -48,7 +36,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null);
     localStorage.removeItem("auth:user");
   }
-
 
   return (
     <AuthContext.Provider
