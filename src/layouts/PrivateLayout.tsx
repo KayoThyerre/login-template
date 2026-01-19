@@ -1,10 +1,6 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Outlet } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
-
-type PrivateLayoutProps = {
-  children: React.ReactNode;
-};
 
 type SidebarItem = {
   label: string;
@@ -14,7 +10,7 @@ type SidebarItem = {
 
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Dashboard", path: "/home", icon: "📊" },
-  { label: "Usuários", path: "/users", icon: "👤" },
+  { label: "Usuários", path: "/home/users", icon: "👤" },
   { label: "Relatórios", path: "/reports", icon: "📈" },
   { label: "Configurações", path: "/settings", icon: "⚙️" },
 ];
@@ -25,13 +21,18 @@ type HeaderAction = {
   variant?: "default" | "danger";
 };
 
-export function PrivateLayout({ children }: PrivateLayoutProps) {
+export function PrivateLayout() {
   const { logout, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+
+  function handleLogout() {
+    logout();
+    navigate("/", { replace: true });
+  }
 
   const headerActions: HeaderAction[] = [
     {
@@ -40,11 +41,6 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
       variant: "danger",
     },
   ];
-
-  function handleLogout() {
-    logout();
-    navigate("/", { replace: true });
-  }
 
   function isActive(path: string) {
     return location.pathname === path;
@@ -105,7 +101,6 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
               </button>
             ))}
           </div>
-
         </div>
       </header>
 
@@ -165,7 +160,7 @@ export function PrivateLayout({ children }: PrivateLayoutProps) {
         {/* CONTENT */}
         <main className="flex-1 p-6">
           <div className="bg-white rounded-lg shadow-sm p-6 h-full">
-            {children}
+            <Outlet />
           </div>
         </main>
       </div>

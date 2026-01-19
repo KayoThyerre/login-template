@@ -1,15 +1,21 @@
-import { PrivateLayout } from "../layouts/PrivateLayout";
+import { Outlet } from "react-router-dom";
 
 export function Home() {
   return (
-    <PrivateLayout>
-      <h2 className="text-2xl font-semibold text-gray-800 mb-2">
-        Dashboard
-      </h2>
+    <div className="flex flex-col gap-6">
+      <div>
+        <h2 className="text-2xl font-semibold text-gray-800">
+          Dashboard
+        </h2>
+        <p className="text-sm text-gray-500">
+          Visão geral do sistema
+        </p>
+      </div>
 
-      <p className="text-gray-600">
-        Bem-vindo ao painel inicial do sistema.
-      </p>
-    </PrivateLayout>
+      {/* Conteúdo das sub-rotas */}
+      <div className="bg-white rounded-lg shadow-sm p-6">
+        <Outlet />
+      </div>
+    </div>
   );
 }

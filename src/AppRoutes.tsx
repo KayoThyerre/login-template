@@ -1,12 +1,16 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "../src/pages/Login";
 import { Home } from "../src/pages/Home";
+import { Users } from "./pages/Users";
+import { Dashboard } from "./pages/Dashboard";
 import { PrivateRoute } from "../src/routes/PrivateRoute";
+import { PrivateLayout } from "./layouts/PrivateLayout";
 
 type AppRoute = {
   path: string;
   element: React.ReactNode;
   isPrivate?: boolean;
+  children?: AppRoute[];
 };
 
 const routes: AppRoute[] = [
@@ -15,35 +19,44 @@ const routes: AppRoute[] = [
     element: <Login />,
   },
   {
-    path: "/home",
-    element: <Home />,
-    isPrivate: true,
+    path: "/",
+    element: (
+      <PrivateRoute>
+        <PrivateLayout />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        path: "home",
+        element: <Home />,
+        children: [
+          {
+            path: "",
+            element: <Dashboard />,
+          },
+          {
+            path: "users",
+            element: <Users />,
+          },
+        ],
+      },
+    ],
   },
 ];
+
+function renderRoute(route: AppRoute) {
+  return (
+    <Route key={route.path} path={route.path} element={route.element}>
+      {route.children?.map(renderRoute)}
+    </Route>
+  );
+}
 
 export function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
-        {routes.map((route) =>
-          route.isPrivate ? (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={
-                <PrivateRoute>
-                  {route.element}
-                </PrivateRoute>
-              }
-            />
-          ) : (
-            <Route
-              key={route.path}
-              path={route.path}
-              element={route.element}
-            />
-          )
-        )}
+        {routes.map(renderRoute)}
       </Routes>
     </BrowserRouter>
   );
