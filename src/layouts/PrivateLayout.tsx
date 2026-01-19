@@ -11,8 +11,8 @@ type SidebarItem = {
 const SIDEBAR_ITEMS: SidebarItem[] = [
   { label: "Dashboard", path: "/home", icon: "📊" },
   { label: "Usuários", path: "/home/users", icon: "👤" },
-  { label: "Relatórios", path: "/reports", icon: "📈" },
-  { label: "Configurações", path: "/settings", icon: "⚙️" },
+  { label: "Relatórios", path: "/home/reports", icon: "📈" },
+  { label: "Configurações", path: "/home/settings", icon: "⚙️" },
 ];
 
 type HeaderAction = {
@@ -43,8 +43,13 @@ export function PrivateLayout() {
   ];
 
   function isActive(path: string) {
-    return location.pathname === path;
+    if (path === "/home") {
+      return location.pathname === "/home" || location.pathname.startsWith("/home/");
+    }
+
+    return location.pathname.startsWith(path);
   }
+
 
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col">

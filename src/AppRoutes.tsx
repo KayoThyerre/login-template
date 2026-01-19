@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Login } from "../src/pages/Login";
 import { Home } from "../src/pages/Home";
 import { Users } from "./pages/Users";
+import { Reports } from "./pages/Reports"
+import { Settings } from "./pages/Settings"
 import { Dashboard } from "./pages/Dashboard";
 import { PrivateRoute } from "../src/routes/PrivateRoute";
 import { PrivateLayout } from "./layouts/PrivateLayout";
@@ -37,6 +39,14 @@ const routes: AppRoute[] = [
           {
             path: "users",
             element: <Users />,
+          },
+          {
+            path: "reports",
+            element: <Reports />,
+          },
+          {
+            path: "settings",
+            element: <Settings />,
           },
         ],
       },
